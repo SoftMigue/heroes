@@ -37,7 +37,6 @@ public class DataServiceImpl implements DataService {
     public HeroesEntity getHeroById(int id) throws NotFoundExceptionHandler {
         Optional<HeroesEntity> foundHeroById = heroesRepository.findById(id);
         if (!foundHeroById.isPresent()) {
-            log.error(NOT_FOUND_HERO_BY_ID_MESSAGE + id);
             throw new NotFoundExceptionHandler(NOT_FOUND_HERO_BY_ID_MESSAGE + id);
         }
         return foundHeroById.get();
@@ -47,7 +46,6 @@ public class DataServiceImpl implements DataService {
     public List<HeroesEntity> getHeroByText(String text) throws NotFoundExceptionHandler {
         List<HeroesEntity> heroesList = heroesRepository.findByNameContainingIgnoreCase(text);
         if (heroesList.isEmpty()) {
-            log.error(NOT_FOUND_HERO_BY_TEXT_MESSAGE + text);
             throw new NotFoundExceptionHandler(NOT_FOUND_HERO_BY_TEXT_MESSAGE + text);
         }
         return heroesList;
@@ -56,7 +54,6 @@ public class DataServiceImpl implements DataService {
     public void updateHero(int id, String inputHeroName) throws NotFoundExceptionHandler {
         Optional<HeroesEntity> foundHeroById = heroesRepository.findById(id);
         if (!foundHeroById.isPresent()) {
-            log.error(NOT_FOUND_HERO_BY_ID_MESSAGE + id);
             throw new NotFoundExceptionHandler(NOT_FOUND_HERO_BY_ID_MESSAGE + id);
         } else {
             foundHeroById.get().setName(inputHeroName);
@@ -67,7 +64,6 @@ public class DataServiceImpl implements DataService {
     public void deleteHero(int id) throws NotFoundExceptionHandler {
         Optional<HeroesEntity> foundHeroById = heroesRepository.findById(id);
         if (!foundHeroById.isPresent()) {
-            log.error(NOT_FOUND_HERO_BY_ID_MESSAGE + id);
             throw new NotFoundExceptionHandler(NOT_FOUND_HERO_BY_ID_MESSAGE + id);
         } else heroesRepository.deleteById(id);
     }
