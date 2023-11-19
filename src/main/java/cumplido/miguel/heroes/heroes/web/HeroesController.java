@@ -27,7 +27,7 @@ public class HeroesController {
 
     @ManualTimer
     @GetMapping(GET_ALL_HEROES)
-    public List<HeroesEntity> getAllHeroes() {
+    public List<HeroesEntity> getAllHeroes() throws NotFoundExceptionHandler {
         return dataService.getAllHeroes();
     }
 

@@ -25,7 +25,7 @@ class DataServiceImplTest {
     private HeroesRepository heroesRepository;
 
     @Test
-    void getAllHeroes() {
+    void getAllHeroes() throws NotFoundExceptionHandler {
         HeroesEntity hero1 = new HeroesEntity();
         hero1.setName("Superman");
         hero1.setId(1);
@@ -45,6 +45,14 @@ class DataServiceImplTest {
 
         assertEquals("Batman", result.get(1).getName());
         assertEquals(2, result.get(1).getId());
+    }
+
+    @Test
+    void getAllHeroesNotFound() {
+        when(heroesRepository.findAll()).thenReturn(Arrays.asList());
+
+        assertThrows(NotFoundExceptionHandler.class, () ->
+                dataService.getAllHeroes());
     }
 
     @Test

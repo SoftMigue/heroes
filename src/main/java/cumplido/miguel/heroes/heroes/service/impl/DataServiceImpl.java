@@ -21,7 +21,11 @@ public class DataServiceImpl implements DataService {
     }
 
     @Cacheable("allHeroes")
-    public List<HeroesEntity> getAllHeroes() {
+    public List<HeroesEntity> getAllHeroes() throws NotFoundExceptionHandler {
+        List<HeroesEntity> allHeroesInDatabase = heroesRepository.findAll();
+        if (allHeroesInDatabase.isEmpty()) {
+            throw new NotFoundExceptionHandler("Database is empty");
+        }
         return heroesRepository.findAll();
     }
 
