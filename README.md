@@ -1,5 +1,5 @@
-# Spring-boot-h2 Swagger
-In this example I have used H2 as in memory database and rest web services are exposed via Swagger-UI.
+# Spring Boot with H2 exposed via Swagger
+I have used H2 as in memory database and rest web services are exposed via Swagger.
 Project can be executed as follows: 
 
  - mvn clean install
