@@ -6,6 +6,7 @@ import cumplido.miguel.heroes.heroes.repository.HeroesRepository;
 import cumplido.miguel.heroes.heroes.service.DataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,10 +28,12 @@ public class DataServiceImpl implements DataService {
         this.heroesRepository = heroesRepository;
     }
 
+    @Cacheable("allHeroes")
     public List<HeroesEntity> getAllHeroes() {
         return heroesRepository.findAll();
     }
 
+    @Cacheable("heroById")
     public HeroesEntity getHeroById(int id) throws NotFoundExceptionHandler {
         Optional<HeroesEntity> foundHeroById = heroesRepository.findById(id);
         if (!foundHeroById.isPresent()) {
@@ -40,6 +43,7 @@ public class DataServiceImpl implements DataService {
         return foundHeroById.get();
     }
 
+    @Cacheable("heroByText")
     public List<HeroesEntity> getHeroByText(String text) throws NotFoundExceptionHandler {
         List<HeroesEntity> heroesList = heroesRepository.findByNameContainingIgnoreCase(text);
         if (heroesList.isEmpty()) {
