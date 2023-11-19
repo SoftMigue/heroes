@@ -6,10 +6,7 @@ import cumplido.miguel.heroes.heroes.repository.HeroesRepository;
 import cumplido.miguel.heroes.heroes.service.DataService;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
-
 import static cumplido.miguel.heroes.heroes.constants.Constants.NOT_FOUND_HERO_BY_ID_MESSAGE;
 import static cumplido.miguel.heroes.heroes.constants.Constants.NOT_FOUND_HERO_BY_TEXT_MESSAGE;
 
@@ -30,11 +27,8 @@ public class DataServiceImpl implements DataService {
 
     @Cacheable("heroById")
     public HeroesEntity getHeroById(int id) throws NotFoundExceptionHandler {
-        Optional<HeroesEntity> foundHeroById = heroesRepository.findById(id);
-        if (!foundHeroById.isPresent()) {
-            throw new NotFoundExceptionHandler(NOT_FOUND_HERO_BY_ID_MESSAGE + id);
-        }
-        return foundHeroById.get();
+        return heroesRepository.findById(id)
+                .orElseThrow(() -> new NotFoundExceptionHandler(NOT_FOUND_HERO_BY_ID_MESSAGE + id));
     }
 
     @Cacheable("heroByText")
@@ -43,24 +37,23 @@ public class DataServiceImpl implements DataService {
         if (heroesList.isEmpty()) {
             throw new NotFoundExceptionHandler(NOT_FOUND_HERO_BY_TEXT_MESSAGE + text);
         }
+
         return heroesList;
     }
 
     public void updateHero(int id, String inputHeroName) throws NotFoundExceptionHandler {
-        Optional<HeroesEntity> foundHeroById = heroesRepository.findById(id);
-        if (!foundHeroById.isPresent()) {
-            throw new NotFoundExceptionHandler(NOT_FOUND_HERO_BY_ID_MESSAGE + id);
-        } else {
-            foundHeroById.get().setName(inputHeroName);
-            heroesRepository.save(foundHeroById.get());
-        }
+        HeroesEntity foundHeroById = heroesRepository.findById(id)
+                .orElseThrow(() -> new NotFoundExceptionHandler(NOT_FOUND_HERO_BY_ID_MESSAGE + id));
+
+        foundHeroById.setName(inputHeroName);
+        heroesRepository.save(foundHeroById);
     }
 
     public void deleteHero(int id) throws NotFoundExceptionHandler {
-        Optional<HeroesEntity> foundHeroById = heroesRepository.findById(id);
-        if (!foundHeroById.isPresent()) {
-            throw new NotFoundExceptionHandler(NOT_FOUND_HERO_BY_ID_MESSAGE + id);
-        } else heroesRepository.deleteById(id);
+        heroesRepository.findById(id)
+                .orElseThrow(() -> new NotFoundExceptionHandler(NOT_FOUND_HERO_BY_ID_MESSAGE + id));
+
+        heroesRepository.deleteById(id);
     }
 
 }
