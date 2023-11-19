@@ -4,8 +4,6 @@ import cumplido.miguel.heroes.heroes.entity.HeroesEntity;
 import cumplido.miguel.heroes.heroes.error.NotFoundExceptionHandler;
 import cumplido.miguel.heroes.heroes.repository.HeroesRepository;
 import cumplido.miguel.heroes.heroes.service.DataService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +16,6 @@ import static cumplido.miguel.heroes.heroes.constants.Constants.NOT_FOUND_HERO_B
 
 @Service
 public class DataServiceImpl implements DataService {
-
-    private static final Logger log = LoggerFactory.getLogger(DataServiceImpl.class);
-
 
     private final HeroesRepository heroesRepository;
 
